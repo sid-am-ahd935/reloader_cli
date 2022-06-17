@@ -1,0 +1,31 @@
+# pyproject.toml
+
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reloader_cli"
+version = "1.0.0"
+description = "Help tune in the fine tune your changes with this minimalist CLI tool that reloads your script after every save."
+readme = "README.md"
+authors = [{ name = "Aman Ahmed Siddiqui", email = "aasiddiqui40@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["debugger", "reloader", "cli_tool"]
+dependencies = []
+requires-python = ">=3.7"
+
+[project.optional-dependencies]
+build = ['twine', 'build']
+dev = ["black", "pytest"]
+
+[project.urls]
+Homepage = "https://github.com/sid_am_ahd935/reloader_cli"
+
+[project.scripts]
+reloader = "reloader_cli.__main__:main"
