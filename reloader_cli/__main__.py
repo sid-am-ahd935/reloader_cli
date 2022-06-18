@@ -142,8 +142,11 @@ def reload_on_change(
         print("This functionality is currently in development...")
         exit(1)
 
-    if not (os.path.exists(path) or os.path.exists(path+'.py')):
-        raise PathNotFoundError(path) from None
+    if not os.path.exists(path):
+        if os.path.exists(path+'.py'):
+            path = path + '.py'
+        else:
+            raise PathNotFoundError(path) from None
 
     if not isinstance(interval, float):
         try:
