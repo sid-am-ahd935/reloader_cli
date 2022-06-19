@@ -8,7 +8,7 @@ Help in fine tuning your changes with this minimalist CLI tool that reloads your
 #
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/sid-am-ahd935/reloader_cli/blob/main/LICENSE)
 [![Tests Passing](https://img.shields.io/badge/tests-passing-green)](https://github.com/sid-am-ahd935/reloader_cli/tree/main/tests)
-[![Coverage 100%](https://img.shields.io/badge/coverage-100%25-green)](https://github.com/sid-am-ahd935/reloader_cli/tree/main/tests)
+[![Coverage 100%](https://img.shields.io/badge/coverage-100%25-green)](https://github.com/sid-am-ahd935/reloader_cli/blob/main/coverage.json)
 #
 ## Installation
 
