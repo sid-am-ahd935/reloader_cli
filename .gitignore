@@ -1,6 +1,12 @@
 # Python cache files
 __pycache__
+
+
+# Testing and Debugging
 .pytest_cache
+.coverage
+pytest_output.txt
+testing.py
 
 
 # Distribution/Packaging

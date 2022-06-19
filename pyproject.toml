@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "reloader_cli"
-version = "1.0.1"
-description = "Help tune in the fine tune your changes with this minimalist CLI tool that reloads your script after every save."
+version = "1.0.3"
+description = "Help in fine tuning your changes with this minimalist CLI tool that reloads your python script after every save."
 readme = "README.md"
 authors = [{ name = "Aman Ahmed Siddiqui", email = "aasiddiqui40@gmail.com" }]
 license = { file = "LICENSE" }
@@ -18,7 +18,7 @@ classifiers = [
 ]
 keywords = ["debugger", "reloader", "cli_tool"]
 dependencies = []
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 
 [project.optional-dependencies]
 build = ['twine', 'build']
