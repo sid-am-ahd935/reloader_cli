@@ -151,7 +151,7 @@ class Test_reload_on_change:
         og_file = open(file_path).read()
 
         for _ in range(times):
-            time.sleep(self.testing_interval / 10)
+            time.sleep(self.testing_interval)
             with open(file_path, "a") as f:
                 f.write("\n1")
 

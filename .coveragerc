@@ -3,5 +3,12 @@ exclude_lines =
     if __name__
     main()
     test
-    # Almost impossible to simulate
+    # Impossible to simulate CTRL+C in Process
     except KeyboardInterrupt
+    # Is a system call, not called through code/user
+    def custom_exception_handler
+
+omit = 
+    # No need to cover formatters, package version mappers
+    reloader_cli/formatter.py
+    reloader_cli/__init__.py
