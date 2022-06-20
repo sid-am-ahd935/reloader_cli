@@ -118,6 +118,7 @@ def reload_on_change(
     change_in: "module/script/path/dir" = None,
     path: "path to watch for change" = None,
     interval: float = 0.25,
+    keep_alive: bool = False,
 ):
     """
     Reloads the module.func() function whenever a change is detected inside the module script. Similar to importlib.reload().
@@ -165,40 +166,52 @@ def reload_on_change(
 
     process = Process(target=get_func(module, func))
     process.start()
+    flag_keep_alive_to_print_message = True
     try:
         while True:
-            try:
-                time.sleep(interval)
-                curr = os.path.getsize(path)
+            time.sleep(interval)
+            curr = os.path.getsize(path)
 
-                if curr != prev:
+            if curr != prev:
 
-                    print(
-                        '\n[%s] changes detected in %s reloading "%s" to reflect changes...\n'
-                        % (time_now(), path, module_name)
-                    )
-                    if process.is_alive():
-                        process.kill()
-
-                    process = Process(target=get_func(module, func))
-                    process.start()
-
-                prev = curr
-                if not process.is_alive():
-                    # The script exited by itself, close the reloader-cli
-                    print(
-                        "[%s] script stopped running, shutting down reloader..."
-                        % (time_now())
-                    )
-                    break
-
-            except KeyboardInterrupt:
                 print(
-                    "\n[%s] ^C detected, shutting down all processes..." % (time_now())
+                    '\n[%s] changes detected in %s reloading "%s" to reflect changes...\n'
+                    % (time_now(), path, module_name)
+                )
+                if process.is_alive():
+                    process.kill()
+
+                process = Process(target=get_func(module, func))
+                process.start()
+                flag_keep_alive_to_print_message = True
+
+            if not process.is_alive() and not keep_alive:
+                # The script exited by itself, close the reloader-cli.
+                print(
+                    "\n[%s] script stopped running, shutting down reloader...\n"
+                    % (time_now())
                 )
                 break
+
+            elif (
+                not process.is_alive()
+                and keep_alive
+                and flag_keep_alive_to_print_message
+            ):
+                # The script finished execution but is still held by by the tool.
+                print(
+                    "\n[%s] script stopped running, keeping alive reloader for next reload...\n"
+                    % (time_now())
+                )
+                flag_keep_alive_to_print_message = False
+
+            prev = curr
+
+    except KeyboardInterrupt:
+        print("\n[%s] ^C detected, shutting down all processes...\n" % (time_now()))
     finally:
-        process.kill()
+        if process.is_alive():
+            process.kill()
 
 
 def main():
@@ -206,8 +219,8 @@ def main():
     parser = ArgumentParser(
         description="Debugger Reload The Script Everytime A Change Is Detected In The Script",
         formatter_class=my_formatter,
-        epilog= "Run this tool with on [app].py for running [run]() function.\n",
-        usage= "reloader [app] [run] [-i seconds] [-v version]"
+        epilog="Run this tool with on [app].py for running [run]() function.\n",
+        usage="reloader [app] [run] [-i seconds] [-v version]",
     )
     parser.add_argument(
         "module",
@@ -217,14 +230,26 @@ def main():
     )
     parser.add_argument(
         "function",
-        default="run",
+        default="main",
         nargs="?",
         help="The function that runs all functionality of the script. Eg: main() of a function.",
     )
     parser.add_argument(
-        "-i", "--interval", default=0.25, type=float, nargs=1, metavar="[seconds]", help= "Time for cooldown between every check."
+        "-i",
+        "--interval",
+        default=0.25,
+        type=float,
+        nargs=1,
+        metavar="[seconds]",
+        help="Time for cooldown between every check.",
     )
-    parser.add_argument('-v', '--version', action= 'store_true', help= 'Show version.')
+    parser.add_argument(
+        "-k",
+        "--keep-alive",
+        action="store_true",
+        help="When the scipts runs out before any change could be reloaded. Press CTRL+C in tool's CLI to exit.",
+    )
+    parser.add_argument("-v", "--version", action="store_true", help="Show version.")
 
     group = parser.add_mutually_exclusive_group()
     # group.add_argument(
@@ -257,6 +282,7 @@ def main():
         if type(args.interval) is list
         else 0.25
     )
+    keep_alive = args.keep_alive
 
     if args.version:
         print(__version__)
@@ -271,7 +297,7 @@ def main():
         # elif type(args.p) is str:
         #     path = args.p
 
-    reload_on_change(module, func, change_in, path, interval)
+    reload_on_change(module, func, change_in, path, interval, keep_alive)
 
 
 if __name__ == "__main__":

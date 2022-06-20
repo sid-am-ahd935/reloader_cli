@@ -1,4 +1,5 @@
 import importlib.metadata
+
 try:
     __version__ = importlib.metadata.version("reloader_cli")
 except:

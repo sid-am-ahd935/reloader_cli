@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "reloader_cli"
-version = "1.0.3"
+version = "1.0.4"
 description = "Help in fine tuning your changes with this minimalist CLI tool that reloads your python script after every save."
 readme = "README.md"
 authors = [{ name = "Aman Ahmed Siddiqui", email = "aasiddiqui40@gmail.com" }]
@@ -22,7 +22,7 @@ requires-python = ">=3.8"
 
 [project.optional-dependencies]
 build = ['twine', 'build']
-dev = ["black", "pytest"]
+dev = ["black", "pytest", "coverage"]
 
 [project.urls]
 Homepage = "https://github.com/sid-am-ahd935/reloader_cli"
