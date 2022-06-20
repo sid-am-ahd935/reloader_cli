@@ -3,6 +3,7 @@ import sys
 import time
 from pathlib import Path
 from argparse import ArgumentParser
+from functools import partial
 from multiprocessing import Process
 from reloader_cli import __version__
 from reloader_cli.formatter import CustomFormatter
@@ -13,6 +14,9 @@ from reloader_cli.exceptions import (
 )
 
 sys.excepthook = custom_exception_handler  # Disable this when debugging
+print = partial(
+    print, flush=True
+)  # Prints the contents no matter the buffer size is filled or not, apparently helps when multiprocessing
 
 
 def time_now() -> str:
@@ -193,16 +197,9 @@ def reload_on_change(
                 )
                 break
 
-            elif (
-                not process.is_alive()
-                and keep_alive
-                and flag_keep_alive_to_print_message
-            ):
+            elif ( not process.is_alive() and keep_alive and flag_keep_alive_to_print_message):
                 # The script finished execution but is still held by by the tool.
-                print(
-                    "\n[%s] script stopped running, keeping alive reloader for next reload...\n"
-                    % (time_now())
-                )
+                print('\n[%s] "%s" script stopped running, keeping alive reloader for next reload...\n' % (time_now(), module_name))
                 flag_keep_alive_to_print_message = False
 
             prev = curr

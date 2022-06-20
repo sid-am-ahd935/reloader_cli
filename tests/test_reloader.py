@@ -190,3 +190,34 @@ class Test_reload_on_change:
         assert " starting reloader" in captured.out
         assert " changes detected" in captured.out
         assert " script stopped running" in captured.out
+
+    def test_keep_alive_runs(self, capfd):
+
+        process = Process(
+            target=reload_on_change,
+            args=(
+                self.module,
+                self.func,
+            ),
+            kwargs=dict(
+                change_in=None,
+                path=None,
+                interval=self.testing_interval,
+                keep_alive=True,
+            ),
+        )
+        process.start()
+        process.join(0.1)
+        self.write_to_detect_changes(times=20, file_path=self.module + ".py")
+
+        process.join(0.5)
+        self.write_to_detect_changes(times=20, file_path=self.module + ".py")
+        process.terminate()
+
+        captured = capfd.readouterr()
+
+        assert " changes detected" in captured.out
+        assert (
+            "script stopped running, keeping alive reloader for next reload"
+            in captured.out
+        )

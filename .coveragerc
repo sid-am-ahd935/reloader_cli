@@ -7,8 +7,17 @@ exclude_lines =
     except KeyboardInterrupt
     # Is a system call, not called through code/user
     def custom_exception_handler
+    # For reducing user end lag when processes are left running by tool accidently, not for testing
+    finally
+    
+
 
 omit = 
     # No need to cover formatters, package version mappers
     reloader_cli/formatter.py
     reloader_cli/__init__.py
+
+[run]
+# This option does not work properly with same function having different options and each of them is eith a raise except or exit()
+# branch = True
+parallel = True

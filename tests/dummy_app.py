@@ -1,5 +1,5 @@
 def run():
-    print("Dummy Runs!!")
+    print("Dummy Runs!!", flush=True)
 
 
 var_a = 1
@@ -7,7 +7,7 @@ import time
 
 
 def little_sleep(i):
-    time.sleep(0.0000001)
+    time.sleep(0.0001)
     # print(f'\r {i} \r', end='')
 
 
@@ -18,4 +18,4 @@ def wait(i):
 
 
 def test():
-    wait(10)
+    wait(20)
