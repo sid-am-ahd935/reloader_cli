@@ -29,5 +29,5 @@ env.bak/
 venv.bak/
 
 # Extras
-# images/*
-# images/
+images/*
+images/
