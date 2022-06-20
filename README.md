@@ -25,6 +25,9 @@ To use this tool, simply install it via pip and run
   reloader [my_app.py] [main]
 ```
 By default this tool targets the run() function inside your app.py script.
+
+![Usage Starting Tips](https://github.com/sid-am-ahd935/reloader_cli/blob/main/images/usage-reloader-cli.gif)
+
 ## Running Tests
 
 To run tests and see code coverage, run the following command:
